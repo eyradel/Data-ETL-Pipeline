@@ -1,17 +1,33 @@
-from datetime import datetime
+from pyspark import SparkContext, SparkConf
+from pyspark.sql import SparkSession, SQLContext
 
-from airflow import DAG
-from airflow.decorators import task
-from airflow.operators.bash import BashOperator
+import os
+driver = os.path.join("lib","postgresql-42.7.3.jar") 
+conf = SparkConf() \
+    .setAppName("Example") \
+    .setMaster("local") \
+    .set("spark.driver.extraClassPath",driver)
 
-# A DAG represents a workflow, a collection of tasks
-with DAG(dag_id="demo", start_date=datetime(2022, 1, 1), schedule="0 0 * * *") as dag:
-    # Tasks are represented as operators
-    hello = BashOperator(task_id="hello", bash_command="echo hello")
+    
 
-    @task()
-    def airflow():
-        print("airflow")
+sc = SparkContext.getOrCreate(conf=conf)
+spark = SparkSession(sc)
+df=spark.read.options(delimiter=",", header=True).csv("data\markets_data.csv")
 
-    # Set dependencies between tasks
-    hello >> airflow()
+#spark sql
+
+df.createOrReplaceTempView("Mart")
+#persist data
+
+dest_tbl = 'public."market"'
+database = "mart"
+password = "postgres"
+user = "postgres"
+df.write.mode("overwrite") \
+    .format("jdbc") \
+    .option("url", f"jdbc:postgresql://localhost:5432/{database}") \
+    .option("dbtable", dest_tbl) \
+    .option("user", user) \
+    .option("password", password) \
+    .option("driver",  "org.postgresql.Driver") \
+    .save()
