@@ -1,6 +1,3 @@
-Certainly! Here's the revised README:
-
----
 
 # Data Integration with Pandas and PySpark
 
@@ -38,7 +35,7 @@ The data integration process consists of the following steps:
 
 ## Usage
 
-1. **Data Integration Script**: The `data_integration.py` script demonstrates how to integrate data from various sources using Pandas and PySpark. Follow the instructions in the script to customize it for your specific data sources and requirements.
+1. **Data Integration Script**: The `cleanup_analysis.ipynb` script demonstrates how to integrate data from various sources using Pandas and PySpark. Follow the instructions in the script to customize it for your specific data sources and requirements.
 
 2. **Jupyter Notebook**: The `cleanup_analysis.ipynb` Jupyter notebook provides a step-by-step guide to cleaning, transforming, and analyzing the integrated data. Execute the cells sequentially to perform data analysis tasks.
 
