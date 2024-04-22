@@ -4,7 +4,7 @@ from pyspark.sql import SparkSession, SQLContext
 import os
 driver = os.path.join("lib","postgresql-42.7.3.jar") 
 conf = SparkConf() \
-    .setAppName("Example") \
+    .setAppName("Engine") \
     .setMaster("local") \
     .set("spark.driver.extraClassPath",driver)
 
@@ -23,6 +23,7 @@ dest_tbl = 'public."market"'
 database = "mart"
 password = "postgres"
 user = "postgres"
+
 df.write.mode("overwrite") \
     .format("jdbc") \
     .option("url", f"jdbc:postgresql://localhost:5432/{database}") \
